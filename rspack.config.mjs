@@ -4,6 +4,7 @@ import {dirname} from 'node:path';
 import {fileURLToPath} from 'node:url';
 import {defineConfig} from '@rspack/cli';
 import {ModuleFederationPlugin} from '@module-federation/enhanced/rspack';
+import {RsdoctorRspackPlugin} from '@rsdoctor/rspack-plugin';
 
 const __dirname = dirname(fileURLToPath(import.meta.url));
 
@@ -15,7 +16,10 @@ export default defineConfig({
         main: './src/index.js',
     },
     resolve: {
-        // conditionNames: ['import'],
+        conditionNames: ['import'],
+    },
+    resolveLoader: {
+        conditionNames: ['import'],
     },
     output: {
         publicPath: '/dist/',
@@ -23,7 +27,7 @@ export default defineConfig({
     module: {
         rules: [
             {
-                test: /\.(?:m|c)?js$/,
+                test: /\.(m|c)?js$/,
                 include: [
                     path.join(__dirname, 'src'),
                     path.join(__dirname, 'node_modules', '@module-federation'),
@@ -48,7 +52,7 @@ export default defineConfig({
                             env: {
                                 targets: {chrome: '55'},
                                 // Change to 'entry' would fix JavaScript parse error.
-                                mode: 'usage',
+                                mode: 'entry',
                                 coreJs: '3',
                             },
                         },
@@ -75,6 +79,7 @@ export default defineConfig({
                 disableDynamicRemoteTypeHints: true,
             },
         }),
+        new RsdoctorRspackPlugin({}),
     ],
     optimization: {},
 });
