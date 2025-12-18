@@ -28,6 +28,7 @@ export default defineConfig({
         rules: [
             {
                 test: /\.(m|c)?js$/,
+                // type: 'javascript/auto',
                 include: [
                     path.join(__dirname, 'src'),
                     path.join(__dirname, 'node_modules', '@module-federation'),
@@ -52,9 +53,10 @@ export default defineConfig({
                             env: {
                                 targets: {chrome: '55'},
                                 // Change to 'entry' would fix JavaScript parse error.
-                                mode: 'entry',
+                                mode: 'usage',
                                 coreJs: '3',
                             },
+                            isModule: 'unknown',
                         },
                     },
                 ],
@@ -79,7 +81,7 @@ export default defineConfig({
                 disableDynamicRemoteTypeHints: true,
             },
         }),
-        new RsdoctorRspackPlugin({}),
+        // new RsdoctorRspackPlugin({}),
     ],
     optimization: {},
 });
