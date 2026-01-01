@@ -74,8 +74,17 @@ export default defineConfig({
                 disableHotTypesReload: true,
                 disableDynamicRemoteTypeHints: true,
             },
+            runtimePlugins: [
+                path.join(
+                    __dirname,
+                    'src',
+                    'modulefederationreplacemanifesturlplugin.js'
+                ),
+            ],
         }),
         process.env.DOCTOR ? new RsdoctorRspackPlugin({}) : null,
     ],
-    optimization: {},
+    optimization: {
+        usedExports: true,
+    },
 });
