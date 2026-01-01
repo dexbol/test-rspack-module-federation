@@ -15,12 +15,6 @@ export default defineConfig({
     entry: {
         main: './src/index.js',
     },
-    resolve: {
-        conditionNames: ['import'],
-    },
-    resolveLoader: {
-        conditionNames: ['import'],
-    },
     output: {
         publicPath: '/dist/',
     },
@@ -28,7 +22,7 @@ export default defineConfig({
         rules: [
             {
                 test: /\.(m|c)?js$/,
-                // type: 'javascript/auto',
+                type: 'javascript/auto',
                 include: [
                     path.join(__dirname, 'src'),
                     path.join(__dirname, 'node_modules', '@module-federation'),
@@ -52,7 +46,6 @@ export default defineConfig({
                             },
                             env: {
                                 targets: {chrome: '55'},
-                                // Change to 'entry' would fix JavaScript parse error.
                                 mode: 'usage',
                                 coreJs: '3',
                             },
@@ -78,10 +71,11 @@ export default defineConfig({
             },
             dev: {
                 disableLiveReload: true,
+                disableHotTypesReload: true,
                 disableDynamicRemoteTypeHints: true,
             },
         }),
-        // new RsdoctorRspackPlugin({}),
+        process.env.DOCTOR ? new RsdoctorRspackPlugin({}) : null,
     ],
     optimization: {},
 });
